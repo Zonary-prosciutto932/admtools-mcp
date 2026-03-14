@@ -16,5 +16,18 @@
   "devDependencies": {
     "@types/node": "^22.0.0",
     "typescript": "^5.7.0"
-  }
+  },
+  "author": "Hleb Tkachenko",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hlebtkachenko/admtools-mcp.git"
+  },
+  "homepage": "https://github.com/hlebtkachenko/admtools-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/hlebtkachenko/admtools-mcp/issues"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": ["mcp", "mcp-server", "adm-tools", "domains", "dns", "hosting", "typescript"]
 }

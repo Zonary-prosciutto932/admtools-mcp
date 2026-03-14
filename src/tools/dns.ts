@@ -1,6 +1,17 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { AdmClient } from "../adm-client.js";
+import { textResult, errorResult } from "./utils.js";
+
+interface DnsRecord {
+  type?: string;
+  record?: string;
+  name?: string;
+  data?: string;
+  value?: string;
+  priority?: number;
+  id?: string;
+}
 
 export function registerDnsTools(server: McpServer, adm: AdmClient) {
   server.tool(
@@ -8,19 +19,23 @@ export function registerDnsTools(server: McpServer, adm: AdmClient) {
     "List all DNS records for a domain",
     { domain_id: z.number().describe("Domain ID (from adm_domains)") },
     async ({ domain_id }) => {
-      const { response } = await adm.call<{ list: Record<string, unknown>[] }>("dns/records_list", { domain_id });
-      const records = response.list;
-      if (!records?.length) return { content: [{ type: "text", text: "No DNS records." }] };
+      try {
+        const { response } = await adm.call<{ list: DnsRecord[] }>("dns/records_list", { domain_id });
+        const records = response.list;
+        if (!records?.length) return textResult("No DNS records.");
 
-      const lines = [`# DNS Records (${records.length})`, ""];
-      for (const r of records) {
-        const type = r.type || "?";
-        const name = r.record || r.name || "@";
-        const data = r.data || r.value || "";
-        const prio = r.priority ? ` (priority: ${r.priority})` : "";
-        lines.push(`- **${type}** ${name} → ${data}${prio} (id: ${r.id || "?"})`);
+        const lines = [`# DNS Records (${records.length})`, ""];
+        for (const r of records) {
+          const type = r.type || "?";
+          const name = r.record || r.name || "@";
+          const data = r.data || r.value || "";
+          const prio = r.priority ? ` (priority: ${r.priority})` : "";
+          lines.push(`- **${type}** ${name} → ${data}${prio} (id: ${r.id || "?"})`);
+        }
+        return textResult(lines.join("\n"));
+      } catch (err) {
+        return errorResult(err);
       }
-      return { content: [{ type: "text", text: lines.join("\n") }] };
     },
   );
 
@@ -35,8 +50,12 @@ export function registerDnsTools(server: McpServer, adm: AdmClient) {
       priority: z.number().optional().default(0).describe("Priority (for MX records)"),
     },
     async ({ domain_id, type, record, data, priority }) => {
-      await adm.call("dns/record_add", { domain_id, type, record, data, priority: priority ?? 0 });
-      return { content: [{ type: "text", text: `DNS record added: ${type} ${record} → ${data}` }] };
+      try {
+        await adm.call("dns/record_add", { domain_id, type, record, data, priority });
+        return textResult(`DNS record added: ${type} ${record} → ${data}`);
+      } catch (err) {
+        return errorResult(err);
+      }
     },
   );
 
@@ -45,8 +64,12 @@ export function registerDnsTools(server: McpServer, adm: AdmClient) {
     "Delete a DNS record (careful!)",
     { subdomain_id: z.number().describe("DNS record ID (from adm_dns_records)") },
     async ({ subdomain_id }) => {
-      await adm.call("dns/record_delete", { subdomain_id });
-      return { content: [{ type: "text", text: `DNS record ${subdomain_id} deleted.` }] };
+      try {
+        await adm.call("dns/record_delete", { subdomain_id });
+        return textResult(`DNS record ${subdomain_id} deleted.`);
+      } catch (err) {
+        return errorResult(err);
+      }
     },
   );
 }

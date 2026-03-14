@@ -36,7 +36,12 @@ export class AdmClient {
       throw new Error(`adm.tools ${sanitized} → ${res.status}: ${text.slice(0, 500)}`);
     }
 
-    const json = JSON.parse(text) as { result: boolean; response: T; error?: string };
+    let json: { result: boolean; response: T; error?: string };
+    try {
+      json = JSON.parse(text) as { result: boolean; response: T; error?: string };
+    } catch {
+      throw new Error(`API returned non-JSON response: ${text.slice(0, 200)}`);
+    }
     if (!json.result && json.error) {
       throw new Error(`adm.tools ${sanitized}: ${json.error}`);
     }

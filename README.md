@@ -1,4 +1,8 @@
-# [adm.tools](https://adm.tools) (servise from [hosting.hyz](https://hosting.hyz) / [ukraine.com.ua](https://ukraine.com.ua) MCP Server
+# [adm.tools](https://adm.tools) (service from [hosting.xyz](https://hosting.xyz) / [ukraine.com.ua](https://ukraine.com.ua)) MCP Server
+
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Node.js Version](https://img.shields.io/badge/node-%3E%3D20-brightgreen)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
 
 MCP server for [adm.tools](https://adm.tools) — the management panel behind [ukraine.com.ua](https://ukraine.com.ua) and [hosting.xyz](https://hosting.xyz) hosting platforms. Manage domains, DNS records, email, and billing from any MCP-compatible client.
 

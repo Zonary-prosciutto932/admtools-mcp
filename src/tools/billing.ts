@@ -1,6 +1,7 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { AdmClient } from "../adm-client.js";
+import { textResult, errorResult } from "./utils.js";
 
 function parseJson(raw: string, label: string): Record<string, string | number> {
   try {
@@ -12,8 +13,12 @@ function parseJson(raw: string, label: string): Record<string, string | number> 
 
 export function registerBillingTools(server: McpServer, adm: AdmClient) {
   server.tool("adm_balance", "Get current account balance", {}, async () => {
-    const { response } = await adm.call<{ balance: number }>("billing/balance_get");
-    return { content: [{ type: "text", text: `# Account Balance\n\n**${response.balance} UAH**` }] };
+    try {
+      const { response } = await adm.call<{ balance: number }>("billing/balance_get");
+      return textResult(`# Account Balance\n\n**${response.balance} UAH**`);
+    } catch (err) {
+      return errorResult(err);
+    }
   });
 
   server.tool(
@@ -24,14 +29,13 @@ export function registerBillingTools(server: McpServer, adm: AdmClient) {
       params: z.string().optional().describe("JSON object of POST parameters"),
     },
     async ({ action, params }) => {
-      const parsed = params ? parseJson(params, "params") : undefined;
-      const { result, response } = await adm.call(action, parsed);
-      return {
-        content: [{
-          type: "text",
-          text: `# ${action}\n- Result: ${result}\n\`\`\`json\n${JSON.stringify(response, null, 2)}\n\`\`\``,
-        }],
-      };
+      try {
+        const parsed = params ? parseJson(params, "params") : undefined;
+        const { result, response } = await adm.call(action, parsed);
+        return textResult(`# ${action}\n- Result: ${result}\n\`\`\`json\n${JSON.stringify(response, null, 2)}\n\`\`\``);
+      } catch (err) {
+        return errorResult(err);
+      }
     },
   );
 }
