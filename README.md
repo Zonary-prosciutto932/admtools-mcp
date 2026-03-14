@@ -1,4 +1,4 @@
-# admtools MCP Server
+# [adm.tools](https://adm.tools) (servise from [hosting.hyz](https://hosting.hyz) / [ukraine.com.ua](https://ukraine.com.ua) MCP Server
 
 MCP server for [adm.tools](https://adm.tools) — the management panel behind [ukraine.com.ua](https://ukraine.com.ua) and [hosting.xyz](https://hosting.xyz) hosting platforms. Manage domains, DNS records, email, and billing from any MCP-compatible client.
 
