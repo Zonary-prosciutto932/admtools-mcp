@@ -1,6 +1,6 @@
 # admtools MCP Server
 
-MCP server for [adm.tools](https://adm.tools) — the management panel behind [ukraine.com.ua](https://ukraine.com.ua) and [hosting.xyz](https://hosting.xyz) hosting platforms. Manage domains, DNS records, email, and billing from Cursor, Claude, or any MCP-compatible client.
+MCP server for [adm.tools](https://adm.tools) — the management panel behind [ukraine.com.ua](https://ukraine.com.ua) and [hosting.xyz](https://hosting.xyz) hosting platforms. Manage domains, DNS records, email, and billing from any MCP-compatible client.
 
 13 tools for the adm.tools API.
 
@@ -12,20 +12,24 @@ MCP server for [adm.tools](https://adm.tools) — the management panel behind [u
 ## Installation
 
 ```bash
+git clone https://github.com/hlebtkachenko/admtools-mcp.git
+cd admtools-mcp
 npm ci
 npm run build
 ```
 
 ## Configuration
 
-Add to `~/.cursor/mcp.json`:
+### Cursor
+
+`~/.cursor/mcp.json`
 
 ```json
 {
   "mcpServers": {
     "admtools": {
       "command": "node",
-      "args": ["path/to/admtools-mcp/dist/index.js"],
+      "args": ["/path/to/admtools-mcp/dist/index.js"],
       "env": {
         "ADMTOOLS_API_TOKEN": "your-api-token"
       }
@@ -33,6 +37,52 @@ Add to `~/.cursor/mcp.json`:
   }
 }
 ```
+
+### Claude Desktop
+
+`claude_desktop_config.json` ([location](https://modelcontextprotocol.io/quickstart/user#1-open-your-mcp-client))
+
+```json
+{
+  "mcpServers": {
+    "admtools": {
+      "command": "node",
+      "args": ["/path/to/admtools-mcp/dist/index.js"],
+      "env": {
+        "ADMTOOLS_API_TOKEN": "your-api-token"
+      }
+    }
+  }
+}
+```
+
+### Claude Code
+
+`.mcp.json` in your project root, or `~/.claude.json` globally:
+
+```json
+{
+  "mcpServers": {
+    "admtools": {
+      "command": "node",
+      "args": ["/path/to/admtools-mcp/dist/index.js"],
+      "env": {
+        "ADMTOOLS_API_TOKEN": "your-api-token"
+      }
+    }
+  }
+}
+```
+
+### Any MCP client (stdio)
+
+The server uses `stdio` transport. Point your MCP client to:
+
+```
+node /path/to/admtools-mcp/dist/index.js
+```
+
+With the `ADMTOOLS_API_TOKEN` environment variable set.
 
 ### Environment Variables
 
