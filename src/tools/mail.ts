@@ -20,7 +20,7 @@ interface Mailbox {
 }
 
 export function registerMailTools(server: McpServer, adm: AdmClient) {
-  server.tool("uua_mail_domains", "List all mail domains on your account", {}, async () => {
+  server.tool("adm_mail_domains", "List all mail domains on your account", {}, async () => {
     const { response } = await adm.call<MailDomain[]>("mail/list");
     if (!response?.length) return { content: [{ type: "text", text: "No mail domains." }] };
 
@@ -30,9 +30,9 @@ export function registerMailTools(server: McpServer, adm: AdmClient) {
   });
 
   server.tool(
-    "uua_mailboxes",
+    "adm_mailboxes",
     "List all mailboxes/redirects for a mail domain",
-    { mail_id: z.number().describe("Mail domain ID (from uua_mail_domains)") },
+    { mail_id: z.number().describe("Mail domain ID (from adm_mail_domains)") },
     async ({ mail_id }) => {
       const { response } = await adm.call<{ list: Mailbox[] }>("mail/box/list", { mail_id });
       const boxes = response.list;
@@ -51,9 +51,9 @@ export function registerMailTools(server: McpServer, adm: AdmClient) {
   );
 
   server.tool(
-    "uua_mailbox_delete",
+    "adm_mailbox_delete",
     "Delete a mailbox (careful!)",
-    { mail_box_id: z.number().describe("Mailbox ID (from uua_mailboxes)") },
+    { mail_box_id: z.number().describe("Mailbox ID (from adm_mailboxes)") },
     async ({ mail_box_id }) => {
       await adm.call("mail/box/delete", { mail_box_id });
       return { content: [{ type: "text", text: `Mailbox ${mail_box_id} deleted.` }] };

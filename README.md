@@ -1,13 +1,13 @@
-# u.ua MCP Server
+# admtools MCP Server
 
-MCP server for [ukraine.com.ua](https://ukraine.com.ua) (u.ua) hosting platform. Manage domains, DNS records, email, and billing from Cursor, Claude, or any MCP-compatible client.
+MCP server for [adm.tools](https://adm.tools) — the management panel behind [ukraine.com.ua](https://ukraine.com.ua) and [hosting.xyz](https://hosting.xyz) hosting platforms. Manage domains, DNS records, email, and billing from Cursor, Claude, or any MCP-compatible client.
 
 13 tools for the adm.tools API.
 
 ## Requirements
 
 - Node.js 20+
-- u.ua API token (activate at [adm.tools/user/api](https://adm.tools/user/api/))
+- adm.tools API token (activate at [adm.tools/user/api](https://adm.tools/user/api/))
 
 ## Installation
 
@@ -23,11 +23,11 @@ Add to `~/.cursor/mcp.json`:
 ```json
 {
   "mcpServers": {
-    "uua": {
+    "admtools": {
       "command": "node",
-      "args": ["path/to/uua-mcp/dist/index.js"],
+      "args": ["path/to/admtools-mcp/dist/index.js"],
       "env": {
-        "UUA_API_TOKEN": "your-api-token"
+        "ADMTOOLS_API_TOKEN": "your-api-token"
       }
     }
   }
@@ -38,7 +38,7 @@ Add to `~/.cursor/mcp.json`:
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `UUA_API_TOKEN` | Yes | Bearer token from adm.tools API settings |
+| `ADMTOOLS_API_TOKEN` | Yes | Bearer token from [adm.tools API settings](https://adm.tools/user/api/) |
 
 ## Tools
 
@@ -46,45 +46,45 @@ Add to `~/.cursor/mcp.json`:
 
 | Tool | Description |
 |------|-------------|
-| `uua_domains` | List all domains with status and expiry |
-| `uua_domain_check` | Check domain availability for registration |
-| `uua_domain_zones` | Available zones with registration prices |
-| `uua_domain_add` | Add domain to NS servers for DNS management |
-| `uua_get_id` | Get object ID by type and name |
+| `adm_domains` | List all domains with status and expiry |
+| `adm_domain_check` | Check domain availability for registration |
+| `adm_domain_zones` | Available zones with registration prices |
+| `adm_domain_add` | Add domain to NS servers for DNS management |
+| `adm_get_id` | Get object ID by type and name |
 
 ### DNS
 
 | Tool | Description |
 |------|-------------|
-| `uua_dns_records` | List DNS records for a domain |
-| `uua_dns_add` | Add record (A, AAAA, ALIAS, CAA, CNAME, MX, NS, TXT, SRV) |
-| `uua_dns_delete` | Delete a DNS record |
+| `adm_dns_records` | List DNS records for a domain |
+| `adm_dns_add` | Add record (A, AAAA, ALIAS, CAA, CNAME, MX, NS, TXT, SRV) |
+| `adm_dns_delete` | Delete a DNS record |
 
 ### Email
 
 | Tool | Description |
 |------|-------------|
-| `uua_mail_domains` | List all mail domains |
-| `uua_mailboxes` | List mailboxes and redirects for a domain |
-| `uua_mailbox_delete` | Delete a mailbox |
+| `adm_mail_domains` | List all mail domains |
+| `adm_mailboxes` | List mailboxes and redirects for a domain |
+| `adm_mailbox_delete` | Delete a mailbox |
 
 ### Billing
 
 | Tool | Description |
 |------|-------------|
-| `uua_balance` | Current account balance (UAH) |
+| `adm_balance` | Current account balance (UAH) |
 
 ### Raw API
 
 | Tool | Description |
 |------|-------------|
-| `uua_api_raw` | Call any adm.tools API endpoint directly |
+| `adm_api_raw` | Call any adm.tools API endpoint directly |
 
 ## Security
 
 - 30-second timeout on all HTTP requests
 - API action path sanitized (leading/trailing slashes stripped)
-- JSON parameters parsed in try/catch (prevents crashes on invalid input)
+- JSON parameters parsed in try/catch
 - Error responses truncated to 500 characters
 - All parameters validated with Zod schemas
 
@@ -107,6 +107,10 @@ src/
 - `@modelcontextprotocol/sdk`
 - Zod (schema validation)
 - Native `fetch`
+
+## What is adm.tools?
+
+[adm.tools](https://adm.tools) is the hosting management panel used by Ukrainian hosting providers [ukraine.com.ua](https://ukraine.com.ua) and [hosting.xyz](https://hosting.xyz). It provides a unified API for domain registration, DNS management, email, and billing across both platforms.
 
 ## API Reference
 

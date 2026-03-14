@@ -4,9 +4,9 @@ import type { AdmClient } from "../adm-client.js";
 
 export function registerDnsTools(server: McpServer, adm: AdmClient) {
   server.tool(
-    "uua_dns_records",
+    "adm_dns_records",
     "List all DNS records for a domain",
-    { domain_id: z.number().describe("Domain ID (from uua_domains)") },
+    { domain_id: z.number().describe("Domain ID (from adm_domains)") },
     async ({ domain_id }) => {
       const { response } = await adm.call<{ list: Record<string, unknown>[] }>("dns/records_list", { domain_id });
       const records = response.list;
@@ -25,7 +25,7 @@ export function registerDnsTools(server: McpServer, adm: AdmClient) {
   );
 
   server.tool(
-    "uua_dns_add",
+    "adm_dns_add",
     "Add a DNS record to a domain",
     {
       domain_id: z.number().describe("Domain ID"),
@@ -41,9 +41,9 @@ export function registerDnsTools(server: McpServer, adm: AdmClient) {
   );
 
   server.tool(
-    "uua_dns_delete",
+    "adm_dns_delete",
     "Delete a DNS record (careful!)",
-    { subdomain_id: z.number().describe("DNS record ID (from uua_dns_records)") },
+    { subdomain_id: z.number().describe("DNS record ID (from adm_dns_records)") },
     async ({ subdomain_id }) => {
       await adm.call("dns/record_delete", { subdomain_id });
       return { content: [{ type: "text", text: `DNS record ${subdomain_id} deleted.` }] };

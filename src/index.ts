@@ -15,8 +15,8 @@ function env(name: string): string {
   return val;
 }
 
-const client = new AdmClient(env("UUA_API_TOKEN"));
-const server = new McpServer({ name: "uua", version: "1.0.0" });
+const client = new AdmClient(env("ADMTOOLS_API_TOKEN"));
+const server = new McpServer({ name: "admtools", version: "2.0.0" });
 
 registerDomainTools(server, client);
 registerDnsTools(server, client);

@@ -3,7 +3,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { AdmClient } from "../adm-client.js";
 
 export function registerDomainTools(server: McpServer, adm: AdmClient) {
-  server.tool("uua_domains", "List all domains in your u.ua account", {}, async () => {
+  server.tool("adm_domains", "List all domains in your account", {}, async () => {
     const { response } = await adm.call<{ list: Record<string, Record<string, unknown>> }>("dns/list");
     const domains = response.list;
     if (!domains || !Object.keys(domains).length) {
@@ -29,7 +29,7 @@ export function registerDomainTools(server: McpServer, adm: AdmClient) {
   });
 
   server.tool(
-    "uua_domain_check",
+    "adm_domain_check",
     "Check if a domain name is available for registration",
     { domain: z.string().describe("Domain to check (e.g. example.com.ua)") },
     async ({ domain }) => {
@@ -44,7 +44,7 @@ export function registerDomainTools(server: McpServer, adm: AdmClient) {
     },
   );
 
-  server.tool("uua_domain_zones", "List available domain zones with prices", {}, async () => {
+  server.tool("adm_domain_zones", "List available domain zones with prices", {}, async () => {
     const { response } = await adm.call<{ list: Record<string, unknown>[] }>("domain/zones");
     const zones = response.list;
     if (!zones?.length) return { content: [{ type: "text", text: "No zones." }] };
@@ -59,7 +59,7 @@ export function registerDomainTools(server: McpServer, adm: AdmClient) {
   });
 
   server.tool(
-    "uua_domain_add",
+    "adm_domain_add",
     "Add a domain to NS servers (for DNS management)",
     { domain_name: z.string().describe("Domain name to add") },
     async ({ domain_name }) => {
@@ -69,7 +69,7 @@ export function registerDomainTools(server: McpServer, adm: AdmClient) {
   );
 
   server.tool(
-    "uua_get_id",
+    "adm_get_id",
     "Get object ID by type and name (utility)",
     {
       type: z.string().describe("Object type (e.g. domain, hosting)"),

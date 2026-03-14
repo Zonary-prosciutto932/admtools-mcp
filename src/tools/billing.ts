@@ -11,13 +11,13 @@ function parseJson(raw: string, label: string): Record<string, string | number> 
 }
 
 export function registerBillingTools(server: McpServer, adm: AdmClient) {
-  server.tool("uua_balance", "Get current account balance", {}, async () => {
+  server.tool("adm_balance", "Get current account balance", {}, async () => {
     const { response } = await adm.call<{ balance: number }>("billing/balance_get");
     return { content: [{ type: "text", text: `# Account Balance\n\n**${response.balance} UAH**` }] };
   });
 
   server.tool(
-    "uua_api_raw",
+    "adm_api_raw",
     "Call any adm.tools API endpoint directly (advanced)",
     {
       action: z.string().describe("API action path (e.g. dns/list, billing/balance_get, domain/check)"),
