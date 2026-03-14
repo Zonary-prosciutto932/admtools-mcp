@@ -2,10 +2,6 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { AdmClient } from "../adm-client.js";
 
-function fmt(obj: unknown): string {
-  return JSON.stringify(obj, null, 2);
-}
-
 export function registerDomainTools(server: McpServer, adm: AdmClient) {
   server.tool("uua_domains", "List all domains in your u.ua account", {}, async () => {
     const { response } = await adm.call<{ list: Record<string, Record<string, unknown>> }>("dns/list");
@@ -22,14 +18,12 @@ export function registerDomainTools(server: McpServer, adm: AdmClient) {
       const paid = info.domain_paid === "1";
       const expiry = info.valid_untill_formatted || info.valid_untill || "";
 
-      let status = "";
+      let status = "UNKNOWN";
       if (pending) status = "PENDING DELETE";
       else if (expired) status = "EXPIRED";
       else if (paid) status = "ACTIVE";
 
-      lines.push(
-        `- **${name}** (domain_id: ${id})${status ? ` [${status}]` : ""}${expiry ? ` expires: ${expiry}` : ""}`,
-      );
+      lines.push(`- **${name}** (id: ${id}) [${status}]${expiry ? ` expires: ${expiry}` : ""}`);
     }
     return { content: [{ type: "text", text: lines.join("\n") }] };
   });
@@ -40,10 +34,7 @@ export function registerDomainTools(server: McpServer, adm: AdmClient) {
     { domain: z.string().describe("Domain to check (e.g. example.com.ua)") },
     async ({ domain }) => {
       const { result, response } = await adm.call<Record<string, unknown>>("domain/check", { domain });
-      const lines = [
-        `# Domain check: ${domain}`,
-        `- Available: ${result ? "YES" : "NO"}`,
-      ];
+      const lines = [`# Domain check: ${domain}`, `- Available: ${result ? "YES" : "NO"}`];
       if (response && typeof response === "object") {
         for (const [k, v] of Object.entries(response)) {
           if (v != null && v !== "") lines.push(`- ${k}: ${v}`);
@@ -61,9 +52,7 @@ export function registerDomainTools(server: McpServer, adm: AdmClient) {
     const lines = [`# Available Zones (${zones.length})`, ""];
     for (const z of zones.slice(0, 50)) {
       const rec = z as Record<string, unknown>;
-      const name = rec.zone || rec.name || "?";
-      const price = rec.price_register || rec.price || "";
-      lines.push(`- .${name}${price ? ` — ${price} UAH` : ""}`);
+      lines.push(`- .${rec.zone || rec.name || "?"} ${rec.price_register || rec.price ? `— ${rec.price_register || rec.price} UAH` : ""}`);
     }
     if (zones.length > 50) lines.push(`\n... and ${zones.length - 50} more`);
     return { content: [{ type: "text", text: lines.join("\n") }] };

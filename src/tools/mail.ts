@@ -13,14 +13,10 @@ interface Mailbox {
   email_auto: string;
   mailbox_type: string;
   forward_to: string | null;
-  aliases: string | null;
   quota: string;
   size_mb: string;
   check_spam_level: string;
-  autoresponder_enabled: string;
   domain: string;
-  sent: number;
-  sent_local: number;
 }
 
 export function registerMailTools(server: McpServer, adm: AdmClient) {
@@ -29,9 +25,7 @@ export function registerMailTools(server: McpServer, adm: AdmClient) {
     if (!response?.length) return { content: [{ type: "text", text: "No mail domains." }] };
 
     const lines = [`# Mail Domains (${response.length})`, ""];
-    for (const d of response) {
-      lines.push(`- **${d.domain}** (mail_id: ${d.id})`);
-    }
+    for (const d of response) lines.push(`- **${d.domain}** (mail_id: ${d.id})`);
     return { content: [{ type: "text", text: lines.join("\n") }] };
   });
 
@@ -49,7 +43,7 @@ export function registerMailTools(server: McpServer, adm: AdmClient) {
         const fwd = b.forward_to ? ` → ${b.forward_to}` : "";
         const type = b.mailbox_type || "mailbox";
         const size = b.size_mb !== "0" ? ` (${b.size_mb} MB)` : "";
-        const spam = b.check_spam_level !== "0" ? ` spam-filter: ${b.check_spam_level}` : "";
+        const spam = b.check_spam_level !== "0" ? ` spam: ${b.check_spam_level}` : "";
         lines.push(`- **${b.email_auto}** [${type}]${fwd}${size}${spam} (id: ${b.id})`);
       }
       return { content: [{ type: "text", text: lines.join("\n") }] };

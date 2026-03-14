@@ -1,4 +1,5 @@
 const BASE = "https://adm.tools/action";
+const TIMEOUT_MS = 30_000;
 
 export class AdmClient {
   private token: string;
@@ -11,13 +12,12 @@ export class AdmClient {
     action: string,
     params?: Record<string, string | number>,
   ): Promise<{ result: boolean; response: T }> {
-    const url = `${BASE}/${action.replace(/^\/+/, "")}/`;
+    const sanitized = action.replace(/^\/+/, "").replace(/\/+$/, "");
+    const url = `${BASE}/${sanitized}/`;
 
     const body = params
       ? new URLSearchParams(
-          Object.fromEntries(
-            Object.entries(params).map(([k, v]) => [k, String(v)]),
-          ),
+          Object.fromEntries(Object.entries(params).map(([k, v]) => [k, String(v)])),
         ).toString()
       : "";
 
@@ -28,18 +28,17 @@ export class AdmClient {
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body,
+      signal: AbortSignal.timeout(TIMEOUT_MS),
     });
 
     const text = await res.text();
-
     if (!res.ok) {
-      throw new Error(`adm.tools ${action} → ${res.status}: ${text.slice(0, 500)}`);
+      throw new Error(`adm.tools ${sanitized} → ${res.status}: ${text.slice(0, 500)}`);
     }
 
     const json = JSON.parse(text) as { result: boolean; response: T; error?: string };
-
     if (!json.result && json.error) {
-      throw new Error(`adm.tools ${action}: ${json.error}`);
+      throw new Error(`adm.tools ${sanitized}: ${json.error}`);
     }
 
     return { result: json.result, response: json.response };
